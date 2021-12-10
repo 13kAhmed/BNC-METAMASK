@@ -31,6 +31,7 @@ metamask_getAccouts();
 async function connect_only_metamask() {
     accounts = await web3.eth.getAccounts();
     if (window.ethereum) {
+        alert(' eth window');
         try {
             accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
             metamask_getAccouts();
