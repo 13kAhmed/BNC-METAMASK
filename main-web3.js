@@ -24,6 +24,7 @@ async function metamask_getAccouts() {
         $('.transferBtn_popup').show();
         $('.connectWallet').hide();
     }
+    console.log(web3);
 }
 
 metamask_getAccouts();
