@@ -25,8 +25,10 @@ async function metamask_getAccouts() {
         $('.connectWallet').hide();
     }
 }
+
 metamask_getAccouts();
 // LETS CHECK IF ACCOUNT EXISTS
+
 // LETS CONNECT WALLET
 async function connect_only_metamask() {
     accounts = await web3.eth.getAccounts();
@@ -42,10 +44,12 @@ async function connect_only_metamask() {
         alert('Please Install METAMASK to use this APP.');
     }
 }
+
 $('.connectWallet').click(function(){
     connect_only_metamask();
 })
 // LETS CONNECT WALLET
+
 // LETS TRANSFER MONEY
 async function transfer_eth(){
     accounts                = await web3.eth.getAccounts();
@@ -61,6 +65,7 @@ async function transfer_eth(){
         }
       });
 }
+
 jQuery('.transferBtn').click(function(){
     originalAmountToBuyWith = jQuery('#originalAmountToBuyWith').val();
     var validator = $( "#myform" ).validate();
@@ -69,6 +74,7 @@ jQuery('.transferBtn').click(function(){
         transfer_eth();
     }
 });
+
 jQuery('.transferBtn_popup').click(function(){
     jQuery('#fromwallet').val(accounts[0]);
     jQuery('.coin_name').html(coin_symbol);
@@ -77,6 +83,7 @@ jQuery('.transferBtn_popup').click(function(){
     }
 });
 // LETS TRANSFER MONEY
+
 function functiontofindIndexByKeyValue(arraytosearch, key, valuetosearch) {
     for (var i = 0; i < arraytosearch.length; i++) {
         if (arraytosearch[i][key] == valuetosearch) {
