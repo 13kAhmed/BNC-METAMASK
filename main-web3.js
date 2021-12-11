@@ -1,5 +1,6 @@
-let originalAmountToBuyWith, bnbAmount, amountToBuyWith, accounts, chainID, coins, coin, coin_symbol, sender, result = '';
-const receiver = '0xb7d919713C1E22c61A287BB1d41054d28007e6dc';
+let originalAmountToBuyWith, bnbAmount, amountToBuyWith, accounts, chainID, coins, coin, coin_symbol, sender, result, coin_id, conversion = '';
+const receiver          = '0xb7d919713C1E22c61A287BB1d41054d28007e6dc';
+const allowedcurrency   = [1, 4, 97, 56];
 
 if (typeof web3 !== 'undefined') {
     web3 = new Web3(web3.currentProvider);
@@ -7,6 +8,7 @@ if (typeof web3 !== 'undefined') {
     //web3 = new Web3(new Web3.providers.HttpProvider("https://bsc-dataseed1.binance.org:443"));
     web3 = new Web3(new Web3.providers.HttpProvider("https://data-seed-prebsc-1-s1.binance.org:8545"));
 }
+
 // LETS CHECK IF ACCOUNT EXISTS
 async function metamask_getAccouts() {
     accounts = await web3.eth.getAccounts();
@@ -20,15 +22,27 @@ async function metamask_getAccouts() {
     coin = functiontofindIndexByKeyValue(coins, 'chainId', chainID);
     coin = coins[coin];
     coin_symbol = coin['nativeCurrency']['symbol'];
+    coin_id = coin['chainId'];
     if(accounts[0] != '' && typeof accounts[0] !== 'undefined'){
         $('.transferBtn_popup').show();
         $('.connectWallet').hide();
     }
-    console.log(web3);
 }
-
 metamask_getAccouts();
 // LETS CHECK IF ACCOUNT EXISTS
+
+// LETS GET CONVERSION
+async function get_conversion(){
+    conversion = await $.getJSON('http://api.exchangeratesapi.io/v1/convert?access_key=038ffc823786a478c7a500a6b15e165e&from=BNB&to=ETH&amount=1&format=1',
+        {
+            mode:'no-cors',
+            dataType:'json',
+        }
+    );
+    console.log(conversion);
+}
+// /get_conversion();
+// LETS GET CONVERSION
 
 // LETS CONNECT WALLET
 async function connect_only_metamask() {
@@ -57,14 +71,19 @@ async function transfer_eth(){
     result                  = '';
     sender                  = accounts[0];
     console.log('Amount: ', originalAmountToBuyWith, 'From: ', sender, 'To: ', receiver);
-    result = await web3.eth.sendTransaction({to:receiver, from:sender, value:web3.utils.toWei(originalAmountToBuyWith, "ether")}, function(err, transactionHash) {
-        if (err) {
-            console.log('Transaction Error: ', err);
-        } else {
-            console.log('Transaction Done: ', transactionHash);
-            jQuery('.transferBtn_close').click();
-        }
-      });
+    result = await web3.eth.sendTransaction({
+        from:   sender,
+        to:     receiver,
+        value:  web3.utils.toWei(originalAmountToBuyWith, "ether")
+    })
+    .on('transactionHash', function(hash){
+        jQuery('.fn_response').html('Hash ID: ' + hash);
+        jQuery('.transferBtn_close').click();
+    })
+    .on('error', function(err){
+        jQuery('.fn_response').html('Error :' + err['message']);
+        jQuery('.transferBtn_close').click();
+    });
 }
 
 jQuery('.transferBtn').click(function(){
@@ -72,7 +91,11 @@ jQuery('.transferBtn').click(function(){
     var validator = $( "#myform" ).validate();
     validator.element( "#originalAmountToBuyWith" );
     if(validator.valid()){
-        transfer_eth();
+        if( jQuery.inArray( coin_id, allowedcurrency ) !== -1 ){
+            transfer_eth();
+        }else{
+            alert('Current Network is Not Supported Please Switch to ETH or BNB.');
+        }
     }
 });
 
@@ -81,6 +104,8 @@ jQuery('.transferBtn_popup').click(function(){
     jQuery('.coin_name').html(coin_symbol);
     if(coin_symbol == 'BNB' || coin_symbol == 'tBNB'){
         jQuery('#originalAmountToBuyWith').attr({"min" : 1});
+    }else if(coin_symbol == 'ETH' || coin_symbol == 'RIN'){
+        jQuery('#originalAmountToBuyWith').attr({"min" : 0.14});
     }
 });
 // LETS TRANSFER MONEY
