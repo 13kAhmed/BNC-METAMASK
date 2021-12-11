@@ -1,55 +1,87 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>BNC | METAMASK Updated</title>
+        <title>BNB & ETH TRANSFER | QASIM SHAHID</title>
+        <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+        <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+        <link id="bootstrap" href="css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+        <style>
+            section{
+                max-width: 700px;
+                margin: auto;
+                text-align: center;
+                min-height: 100vh;
+                vertical-align: middle;
+            }
+            .oragebtn{
+                background: #ff343f;
+                text-align: center;
+                color: #fff;
+                border-radius: 6px;
+                -moz-border-radius: 6px;
+                -webkit-border-radius: 6px;
+                outline: 0;
+                font-weight: 800;
+                text-decoration: none;
+                padding: 8px 40px;
+                font-size: 14px;
+                border: none;
+                position: relative;
+                top: 150px;
+            }
+            .oragebtn:hover{
+                color: #fff;
+                -webkit-box-shadow: 2px 2px 20px 0px rgba(var(--secondary-color-rgb), 0.5);
+                -moz-box-shadow: 2px 2px 20px 0px rgba(var(--secondary-color-rgb), 0.5);
+                box-shadow: 2px 2px 20px 0px rgba(var(--secondary-color-rgb), 0.5);
+            }
+        </style>
     </head>
-    <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
-    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-    <link id="bootstrap" href="css/bootstrap.min.css" rel="stylesheet" type="text/css" />
-<body>
-    <section id="transfer" class="pt30 pb30">
-        <button class="connectWallet"> Connect Wallet </button>
-        <button style="display: none;" type="button" class="transferBtn_popup" data-bs-toggle="modal" data-bs-target="#transferModal"> Transfer </button>
-        <p class="fn_response"></p>
-    </section>
-</body>
 
-<div class="modal fade" id="transferModal" tabindex="-1" aria-labelledby="transferModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="transferModalLabel">Transfer</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    <body>
+        <section id="transfer" class="pt30 pb30 transfer">
+            <button class="connectWallet oragebtn"> Connect Wallet </button>
+            <button style="display: none;" type="button" class="transferBtn_popup oragebtn" data-bs-toggle="modal" data-bs-target="#transferModal"> Transfer </button>
+            <p class="fn_response"></p>
+        </section>
+    </body>
+
+    <div class="modal fade" id="transferModal" tabindex="-1" aria-labelledby="transferModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h5 class="modal-title" id="transferModalLabel">Transfer</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="myform">
+                    <div class="mb-3">
+                        <label for="fromwallet" class="form-label">Your Wallet Address</label>
+                        <input type="text" class="form-control" id="fromwallet" readonly>
+                    </div>
+                    <div class="mb-3">
+                        <label for="towallet" class="form-label">Weeyz Wallet Address</label>
+                        <input type="text" class="form-control" id="towallet" readonly value="0xb7d919713C1E22c61A287BB1d41054d28007e6dc">
+                    </div>
+                    <div class="mb-3">
+                        <label for="originalAmountToBuyWith" class="form-label">Amount to Transfer <span class="coin_name"></span></label>
+                        <input type="number" class="form-control" id="originalAmountToBuyWith" required>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+            <button type="button" class="btn btn-secondary transferBtn_close" data-bs-dismiss="modal">Cancel</button>
+            <button type="button" class="btn btn-primary transferBtn">Confirm</button>
+            </div>
         </div>
-        <div class="modal-body">
-            <form id="myform">
-                <div class="mb-3">
-                    <label for="fromwallet" class="form-label">Your Wallet Address</label>
-                    <input type="text" class="form-control" id="fromwallet" readonly>
-                </div>
-                <div class="mb-3">
-                    <label for="towallet" class="form-label">Weeyz Wallet Address</label>
-                    <input type="text" class="form-control" id="towallet" readonly value="0xb7d919713C1E22c61A287BB1d41054d28007e6dc">
-                </div>
-                <div class="mb-3">
-                    <label for="originalAmountToBuyWith" class="form-label">Amount to Transfer <span class="coin_name"></span></label>
-                    <input type="number" class="form-control" id="originalAmountToBuyWith" required>
-                </div>
-            </form>
         </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary transferBtn_close" data-bs-dismiss="modal">Cancel</button>
-          <button type="button" class="btn btn-primary transferBtn">Confirm</button>
-        </div>
-      </div>
     </div>
-</div>
 
-<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
-<script src="js/bootstrap.min.js"></script>
-<script src="js/bootstrap.bundle.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/jquery.validate.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/web3/1.6.1/web3.min.js" integrity="sha512-5erpERW8MxcHDF7Xea9eBQPiRtxbse70pFcaHJuOhdEBQeAxGQjUwgJbuBDWve+xP/u5IoJbKjyJk50qCnMD7A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-<script src="main-web3.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/jquery.validate.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/web3/1.6.1/web3.min.js" integrity="sha512-5erpERW8MxcHDF7Xea9eBQPiRtxbse70pFcaHJuOhdEBQeAxGQjUwgJbuBDWve+xP/u5IoJbKjyJk50qCnMD7A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="main-web3.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 </html>
