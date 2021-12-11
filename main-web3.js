@@ -121,18 +121,16 @@ function functiontofindIndexByKeyValue(arraytosearch, key, valuetosearch) {
 }
 
 function insert_trans(transaction, address, amount, coin_symbol){
-    var request = jQuery.ajax({
-        url: "script.php",
-        type: "POST",
-        data: {address : address, amount : amount, coin_symbol : coin_symbol, transaction : transaction},
-        dataType: "json"
-    });
-      
-    request.done(function(result) {
-        
-    });
-      
-    request.fail(function(jqXHR, textStatus) {
-        
+    axios.post('/insertTransaction', {
+        transaction : transaction,
+        address     : address,
+        amount      : amount,
+        coin_symbol : coin_symbol
+    })
+    .then(function (response) {
+        console.log(response);
+    })
+    .catch(function (error) {
+        console.log(error);
     });
 }
