@@ -9,6 +9,19 @@ if (typeof web3 !== 'undefined') {
     web3 = new Web3(new Web3.providers.HttpProvider("https://data-seed-prebsc-1-s1.binance.org:8545"));
 }
 
+// LETS GET CONVERSION
+async function get_conversion(){
+    conversion = await $.getJSON('https://api.coinlayer.com/convert?access_key=7e68d848a0a68433f97f9be7b6163c65&from=BNB&to=ETH&amount=1',
+        {
+            mode:'no-cors',
+            dataType:'json',
+        }
+    );
+    conversion = conversion['result'].toFixed(2);
+}
+get_conversion();
+// LETS GET CONVERSION
+
 // LETS CHECK IF ACCOUNT EXISTS
 async function metamask_getAccouts() {
     accounts = await web3.eth.getAccounts();
@@ -30,19 +43,6 @@ async function metamask_getAccouts() {
 }
 metamask_getAccouts();
 // LETS CHECK IF ACCOUNT EXISTS
-
-// LETS GET CONVERSION
-async function get_conversion(){
-    conversion = await $.getJSON('http://api.exchangeratesapi.io/v1/convert?access_key=038ffc823786a478c7a500a6b15e165e&from=BNB&to=ETH&amount=1&format=1',
-        {
-            mode:'no-cors',
-            dataType:'json',
-        }
-    );
-    console.log(conversion);
-}
-// /get_conversion();
-// LETS GET CONVERSION
 
 // LETS CONNECT WALLET
 async function connect_only_metamask() {
@@ -77,6 +77,7 @@ async function transfer_eth(){
         value:  web3.utils.toWei(originalAmountToBuyWith, "ether")
     })
     .on('transactionHash', function(hash){
+        insert_trans(hash, sender, originalAmountToBuyWith, coin_symbol);
         jQuery('.fn_response').html('Hash ID: ' + hash);
         jQuery('.transferBtn_close').click();
     })
@@ -105,7 +106,7 @@ jQuery('.transferBtn_popup').click(function(){
     if(coin_symbol == 'BNB' || coin_symbol == 'tBNB'){
         jQuery('#originalAmountToBuyWith').attr({"min" : 1});
     }else if(coin_symbol == 'ETH' || coin_symbol == 'RIN'){
-        jQuery('#originalAmountToBuyWith').attr({"min" : 0.14});
+        jQuery('#originalAmountToBuyWith').attr({"min" : conversion});
     }
 });
 // LETS TRANSFER MONEY
@@ -117,4 +118,21 @@ function functiontofindIndexByKeyValue(arraytosearch, key, valuetosearch) {
         }
     }
     return null;
+}
+
+function insert_trans(transaction, address, amount, coin_symbol){
+    var request = jQuery.ajax({
+        url: "script.php",
+        type: "POST",
+        data: {address : address, amount : amount, coin_symbol : coin_symbol, transaction : transaction},
+        dataType: "json"
+    });
+      
+    request.done(function(result) {
+        
+    });
+      
+    request.fail(function(jqXHR, textStatus) {
+        
+    });
 }
