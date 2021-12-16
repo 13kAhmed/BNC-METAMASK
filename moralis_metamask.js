@@ -58,6 +58,7 @@ async function enable_web3(){
 
 // INIT CONNECT WALLET
 async function initApp(){
+    console.log('this is running');
     currentUser = await Moralis.User.current();
     if(!currentUser){
         currentUser = await Moralis.Web3.authenticate();
