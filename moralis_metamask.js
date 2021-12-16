@@ -19,21 +19,10 @@ get_conversion();
 // LETS GET CONVERSION
 
 const serverUrl = "https://dj2d6jh9yctg.usemoralis.com:2053/server";
-const appId = "kiGgE1ICN1USnRjS7HBI46CqJtwfgyuFxmSXnaQg";
+const appId     = "kiGgE1ICN1USnRjS7HBI46CqJtwfgyuFxmSXnaQg";
 Moralis.start({ serverUrl, appId });
 
 async function enable_web3(){
-    
-    if (window.ethereum) {
-        try {
-            accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
-            console.log('Account Connected:', accounts);
-        } catch (error) {
-            console.log('ETH ERR:', error);
-        }
-    }else{
-        alert('Please Install METAMASK to use this APP.');
-    }
 
     const web3 = await Moralis.enableWeb3();
     WEB3_INJECT = await new Web3(web3.currentProvider);
@@ -61,8 +50,10 @@ async function initApp(){
     currentUser = await Moralis.User.current();
     if(!currentUser){
         currentUser = await Moralis.Web3.authenticate();
-        console.log('user being logged', currentUser);
-        signed_user();
+        if(currentUser){
+            signed_user();
+            console.log('user being logged', currentUser);
+        }
     }else{
         currentUser = await Moralis.User.current();
         console.log('User Is Now Logged', currentUser);
@@ -87,10 +78,16 @@ async function logOut() {
     console.log("logged out");
 }
 // LOG OUT
+// logOut();
 
 // LETS CHECK IF ACCOUNT EXISTS
 jQuery('.connectWallet').click(function(){
-    initApp();
+    if (window.ethereum) {
+        initApp();
+    }else{
+        alert('Please Install METAMASK to use this APP.');
+    }
+    
 });
 
 // LETS TRANSFER MONEY
@@ -164,10 +161,8 @@ function insert_trans(transaction, address, amount, coin_symbol){
 
 Moralis.onAccountsChanged( async (accounts) => {
     console.log(accounts[0]);
-    location.reload();
 });
 
 Moralis.onChainChanged( async (chain) => {
     console.log(chain);
-    location.reload();
 });
