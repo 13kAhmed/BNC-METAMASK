@@ -30,7 +30,7 @@ async function enable_web3(){
             console.log('Account Connected:', accounts);
         } catch (error) {
             console.log('ETH ERR:', error);
-          }
+        }
     }else{
         alert('Please Install METAMASK to use this APP.');
     }
@@ -58,13 +58,14 @@ async function enable_web3(){
 
 // INIT CONNECT WALLET
 async function initApp(){
-    currentUser = await Moralis.User.current();
+    currentUser = await Moralis.User.current().then(function(){
+        signed_user();
+    });
     if(!currentUser){
         currentUser = await Moralis.Web3.authenticate();
     }else{
         currentUser = await Moralis.User.current();
     }
-    signed_user();
 }
 // INIT CONNECT WALLET
 
@@ -76,6 +77,7 @@ async function signed_user(){
         enable_web3();
     }
 }
+signed_user();
 // SIGNED USER
 
 // LOG OUT
