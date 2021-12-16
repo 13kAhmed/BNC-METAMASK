@@ -11,7 +11,7 @@ if (typeof web3 !== 'undefined') {
 
 // LETS GET CONVERSION
 async function get_conversion(){
-    conversion = await $.getJSON('https://api.coinlayer.com/convert?access_key=7e68d848a0a68433f97f9be7b6163c65&from=BNB&to=ETH&amount=0.01',
+    conversion = await $.getJSON('https://api.coinlayer.com/convert?access_key=7e68d848a0a68433f97f9be7b6163c65&from=BNB&to=ETH&amount=1',
         {
             mode:'no-cors',
             dataType:'json',
@@ -104,7 +104,7 @@ jQuery('.transferBtn_popup').click(function(){
     jQuery('#fromwallet').val(accounts[0]);
     jQuery('.coin_name').html(coin_symbol);
     if(coin_symbol == 'BNB' || coin_symbol == 'tBNB'){
-        jQuery('#originalAmountToBuyWith').attr({"min" : 0.01});
+        jQuery('#originalAmountToBuyWith').attr({"min" : 1});
     }else if(coin_symbol == 'ETH' || coin_symbol == 'RIN'){
         jQuery('#originalAmountToBuyWith').attr({"min" : conversion});
     }
