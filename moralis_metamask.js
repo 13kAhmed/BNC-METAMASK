@@ -68,6 +68,8 @@ async function signed_user(){
     console.log('Is User Sign in?', currentUser);
     if(currentUser){
         enable_web3();
+    }else{
+        currentUser = await Moralis.Web3.authenticate();
     }
 }
 signed_user();
