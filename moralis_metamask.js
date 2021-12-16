@@ -162,10 +162,10 @@ function insert_trans(transaction, address, amount, coin_symbol){
 
 Moralis.onAccountsChanged( async (accounts) => {
     console.log(accounts[0]);
-    location.reload();
+    //location.reload();
 });
 
 Moralis.onChainChanged( async (chain) => {
     console.log(chain);
-    location.reload();
+    //location.reload();
 });
