@@ -73,7 +73,7 @@ async function signed_user(){
     console.log('Is User Sign in?');
     currentUser = await Moralis.User.current();
     if(currentUser){
-        enable_web3();
+        //enable_web3();
     }
 }
 signed_user();
@@ -162,10 +162,10 @@ function insert_trans(transaction, address, amount, coin_symbol){
 
 Moralis.onAccountsChanged( async (accounts) => {
     console.log(accounts[0]);
-    //location.reload();
+    location.reload();
 });
 
 Moralis.onChainChanged( async (chain) => {
     console.log(chain);
-    //location.reload();
+    location.reload();
 });
