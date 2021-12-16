@@ -58,14 +58,13 @@ async function enable_web3(){
 
 // INIT CONNECT WALLET
 async function initApp(){
-    currentUser = await Moralis.User.current().then(function(){
-        signed_user();
-    });
+    currentUser = await Moralis.User.current();
     if(!currentUser){
         currentUser = await Moralis.Web3.authenticate();
     }else{
         currentUser = await Moralis.User.current();
     }
+    await signed_user();
 }
 // INIT CONNECT WALLET
 
