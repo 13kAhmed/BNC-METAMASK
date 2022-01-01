@@ -4,6 +4,19 @@ const allowedcurrency   = [1, 4, 97, 56];
 let originalAmountToBuyWith, bnbAmount, amountToBuyWith, accounts, chainID, coins, coin, coin_symbol, sender, result, coin_id, conversion, currentUser, WEB3_INJECT  = '';
 // SET VARIABLES
 
+// GLOBAL ABIs
+async function get_token_uri(){
+    let web3_global_contract = await new Moralis.enableWeb3();
+    let token_uri_global = [{"inputs":[{"internalType":"uint256","name":"tokenId","type":"uint256"}],"name":"tokenURI","outputs":[{"internalType":"string","name":"","type":"string"}],"stateMutability":"view","type":"function"}];
+    let current_address = '0xfa5f0e147d69302dc3d4c06dc56766f88f9e424f';
+    let token_uri_contract = new web3_global_contract.eth.Contract(token_uri_global, current_address);
+    token_uri_contract.methods.tokenURI(1).call(function(result){
+        console.log(result);
+    });
+}
+get_token_uri();
+// GLOBAL ABIs
+
 // LETS GET CONVERSION
 async function get_conversion(){
     conversion = await $.getJSON('https://api.coinlayer.com/convert?access_key=7e68d848a0a68433f97f9be7b6163c65&from=BNB&to=ETH&amount=1.00',
